@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Daily Current Affairs Quiz — GK Prep</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tabler-icons/2.44.0/iconfont/tabler-icons.min.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap header-row">
+    <a href="index.html" class="logo">GK<span>Prep</span></a>
+    <nav class="main-nav">
+      <a href="index.html">Home</a>
+      <a href="index.html">Current affairs</a>
+      <a href="quiz.html" class="active">Quiz</a>
+      <a href="index.html">GK questions</a>
+      <a href="index.html">E-books</a>
+    </nav>
+    <div class="header-actions">
+      <button class="search-toggle" aria-label="Search"><i class="ti ti-search"></i></button>
+      <a href="index.html" class="login-link">Login</a>
+      <button class="menu-toggle" aria-label="Open menu"><i class="ti ti-menu-2"></i></button>
+    </div>
+  </div>
+  <div class="category-strip">
+    <div class="wrap">
+      <a href="index.html">Polity</a>
+      <a href="index.html">Economy</a>
+      <a href="index.html">Science and tech</a>
+      <a href="index.html">Environment</a>
+      <a href="index.html">History</a>
+      <a href="index.html">International</a>
+    </div>
+  </div>
+</header>
+
+<main class="page-body">
+  <div class="wrap layout-grid">
+
+    <section>
+      <p class="breadcrumb"><a href="index.html">Home</a> &gt; <a href="quiz.html">Quiz</a> &gt; Daily current affairs</p>
+
+      <div class="quiz-head">
+        <h1>Daily current affairs quiz</h1>
+        <span class="timer"><i class="ti ti-clock"></i><span id="timer-display">00:00</span></span>
+      </div>
+
+      <div class="progress-row">
+        <span id="progress-label">Question 1 of 5</span>
+        <div class="progress-track"><div class="progress-fill" id="progress-fill" style="width:20%;"></div></div>
+      </div>
+
+      <div class="question-card" id="question-card">
+        <p class="q-text" id="q-text"></p>
+        <div class="options" id="options-container"></div>
+        <div class="explanation" id="explanation"></div>
+      </div>
+
+      <div class="quiz-nav">
+        <button class="btn" id="prev-btn" style="width:auto; padding:10px 22px;">Previous</button>
+        <button class="btn btn-primary" id="next-btn" style="width:auto; padding:10px 22px;">Next question</button>
+      </div>
+
+      <div class="result-banner" id="result-banner">
+        <p style="color:var(--ink-secondary); margin:0;">Quiz complete</p>
+        <div class="score-big" id="final-score">0 / 5</div>
+        <p style="color:var(--ink-secondary); margin:0 0 18px;">Nice work — review your answers below or try another quiz.</p>
+        <a href="quiz.html" class="btn btn-primary" style="width:auto; padding:10px 24px; display:inline-block;">Retake quiz</a>
+      </div>
+    </section>
+
+    <aside>
+      <div class="side-card">
+        <h4>Your progress</h4>
+        <div class="score-list">
+          <div class="score-row correct"><span>Correct</span><span id="score-correct">0</span></div>
+          <div class="score-row incorrect"><span>Incorrect</span><span id="score-incorrect">0</span></div>
+          <div class="score-row"><span>Remaining</span><span id="score-remaining">5</span></div>
+        </div>
+      </div>
+
+      <div class="side-card">
+        <h4>Other quizzes</h4>
+        <div class="link-list">
+          <a href="quiz.html">Indian polity MCQs <i class="ti ti-chevron-right"></i></a>
+          <a href="quiz.html">Environment MCQs <i class="ti ti-chevron-right"></i></a>
+          <a href="quiz.html">Science and tech MCQs <i class="ti ti-chevron-right"></i></a>
+        </div>
+      </div>
+    </aside>
+
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-bottom" style="border-top:none; padding-top:0;">
+      <span>&copy; 2026 GK Prep. All rights reserved.</span>
+      <span>Prototype for design review</span>
+    </div>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
