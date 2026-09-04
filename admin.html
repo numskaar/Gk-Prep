@@ -1,54 +1,22 @@
 <!doctype html>
 <html lang="hi">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>GK Prep Admin</title>
-<link rel="stylesheet" href="admin.css">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>GK Prep Admin</title><link rel="stylesheet" href="admin.css">
 </head>
 <body>
-<div id="loginView" class="center">
-  <form id="loginForm" class="card">
-    <h1>GK Prep Admin</h1>
-    <p>Admin panel में प्रवेश करें</p>
-    <input id="email" type="email" placeholder="Admin email" required>
-    <input id="password" type="password" placeholder="Password" required>
-    <button>Login</button>
-    <small id="loginMsg"></small>
-  </form>
-</div>
-
+<div id="loginView" class="center"><form id="loginForm" class="card login-card"><h1>GK Prep Admin</h1><p>Admin panel में प्रवेश करें</p><input id="email" type="email" placeholder="Admin email" required><input id="password" type="password" placeholder="Password" required><button>Login</button><small id="loginMsg"></small></form></div>
 <div id="app" class="hidden">
-  <header><strong>GK PREP ADMIN</strong><button id="logout">Logout</button></header>
-  <main>
-    <section class="stats">
-      <div class="stat"><b id="totalPosts">0</b><span>Current Affairs</span></div>
-      <div class="stat"><b id="publishedPosts">0</b><span>Published</span></div>
-    </section>
-
-    <section class="card">
-      <h2 id="formTitle">Add Current Affair</h2>
-      <form id="postForm">
-        <input type="hidden" id="postId">
-        <input id="title" placeholder="Title" required>
-        <input id="category" placeholder="Category (e.g. National)" required>
-        <input id="date" type="date" required>
-        <input id="image" placeholder="Image URL (optional)">
-        <textarea id="summary" placeholder="Short summary"></textarea>
-        <textarea id="content" placeholder="Full content" required></textarea>
-        <label><input id="published" type="checkbox" checked> Publish</label>
-        <div><button type="submit">Save</button><button type="button" id="cancelEdit" class="secondary hidden">Cancel</button></div>
-        <small id="formMsg"></small>
-      </form>
-    </section>
-
-    <section class="card">
-      <h2>Current Affairs</h2>
-      <div id="posts"></div>
-    </section>
-  </main>
-</div>
-<script src="config.js"></script>
-<script src="admin.js"></script>
-</body>
-</html>
+<header><strong>GK PREP ADMIN</strong><button id="logout">Logout</button></header>
+<main>
+<section class="stats"><div class="stat"><b id="totalPosts">0</b><span>Current Affairs</span></div><div class="stat"><b id="publishedPosts">0</b><span>Published Affairs</span></div><div class="stat"><b id="totalQuestions">0</b><span>GK Questions</span></div><div class="stat"><b id="publishedQuestions">0</b><span>Published Questions</span></div></section>
+<div class="tabs"><button class="tab active" data-tab="affairs">Current Affairs</button><button class="tab" data-tab="questions">GK Questions</button></div>
+<section id="affairsTab">
+<section class="card"><h2 id="formTitle">Add Current Affair</h2><form id="postForm"><input type="hidden" id="postId"><input id="title" placeholder="Title" required><input id="category" placeholder="Category (e.g. National)" required><input id="date" type="date" required><input id="image" placeholder="Image URL (optional)"><textarea id="summary" placeholder="Short summary"></textarea><textarea id="content" placeholder="Full content" required></textarea><label><input id="published" type="checkbox" checked> Publish</label><div><button type="submit">Save</button><button type="button" id="cancelEdit" class="secondary hidden">Cancel</button></div><small id="formMsg"></small></form></section>
+<section class="card"><h2>Current Affairs</h2><div id="posts"></div></section></section>
+<section id="questionsTab" class="hidden">
+<section class="card"><h2 id="questionFormTitle">Add GK Question</h2><form id="questionForm"><input type="hidden" id="questionId"><textarea id="question" placeholder="Question" required></textarea><input id="optionA" placeholder="Option A" required><input id="optionB" placeholder="Option B" required><input id="optionC" placeholder="Option C" required><input id="optionD" placeholder="Option D" required><select id="correctOption" required><option value="">Correct Answer चुनें</option><option value="A">A</option><option value="B">B</option><option value="C">C</option><option value="D">D</option></select><input id="questionCategory" placeholder="Category (e.g. History)"><textarea id="explanation" placeholder="Explanation (optional)"></textarea><label><input id="questionPublished" type="checkbox" checked> Publish</label><div><button type="submit">Save Question</button><button type="button" id="cancelQuestionEdit" class="secondary hidden">Cancel</button></div><small id="questionFormMsg"></small></form></section>
+<section class="card"><h2>GK Questions</h2><div id="questions"></div></section></section>
+</main></div>
+<script src="config.js"></script><script src="admin.js"></script>
+</body></html>
