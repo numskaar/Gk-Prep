@@ -1,175 +1,24 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hi">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GK Prep — Current Affairs and GK for UPSC, SSC, Banking</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tabler-icons/2.44.0/iconfont/tabler-icons.min.css">
-<link rel="stylesheet" href="style.css">
-</head>
-<body>
-
-<header class="site-header">
-  <div class="wrap header-row">
-    <a href="index.html" class="logo">GK<span>Prep</span></a>
-    <nav class="main-nav">
-      <a href="index.html" class="active">Home</a>
-      <a href="index.html">Current affairs</a>
-      <a href="quiz.html">Quiz</a>
-     <a href="gk-questions.html">GK questions</a>
-      <a href="index.html">E-books</a>
-    </nav>
-    <div class="header-actions">
-      <button class="search-toggle" aria-label="Search"><i class="ti ti-search"></i></button>
-      <a href="index.html" class="login-link">Login</a>
-      <button class="menu-toggle" aria-label="Open menu"><i class="ti ti-menu-2"></i></button>
-    </div>
-  </div>
-  <div class="category-strip">
-    <div class="wrap">
-      <a href="index.html">Polity</a>
-      <a href="index.html">Economy</a>
-      <a href="index.html">Science and tech</a>
-      <a href="index.html">Environment</a>
-      <a href="index.html">History</a>
-      <a href="index.html">International</a>
-    </div>
-  </div>
-</header>
-
-<main class="page-body">
-  <div class="wrap layout-grid">
-
-    <section>
-      <article class="feature-card">
-        <div class="thumb">
-          <img id="featuredImage" src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=900&h=500&fit=crop" alt="Featured current affairs article">
-        </div>
-        <div class="body">
-          <h2><a id="featuredTitle" href="#">Loading latest current affair...</a></h2>
-          <p class="excerpt" id="featuredSummary">Loading...</p>
-          <div class="meta-row">
-            <span class="tag" id="featuredCategory">Current affairs</span>
-            <span id="featuredDate">Loading...</span>
-            <span>GK Prep</span>
-          </div>
-        </div>
-      </article>
-
-      <h3 class="section-label">Latest articles</h3>
-      <div class="article-list" id="dynamicArticles">
-  <p>Loading current affairs...</p>
-</div>
-    </section>
-
-    <aside>
-      <div class="side-card" style="text-align:center;">
-        <h4>Track your progress</h4>
-        <p class="hint">Save quiz scores and bookmark articles to revise later.</p>
-        <a href="index.html" class="btn btn-primary">Login or register</a>
-      </div>
-
-      <div class="side-card" style="text-align:center;">
-        <i class="ti ti-device-mobile" style="font-size:26px;color:var(--ink-secondary);"></i>
-        <h4 style="margin-top:10px;">Get the app</h4>
-        <p class="hint">Practice quizzes on the go, even offline.</p>
-        <a href="index.html" class="btn">Download app</a>
-      </div>
-
-      <div class="side-card">
-        <h4>Popular categories</h4>
-        <div class="link-list">
-          <a href="index.html">Indian polity <i class="ti ti-chevron-right"></i></a>
-          <a href="index.html">Environment and ecology <i class="ti ti-chevron-right"></i></a>
-          <a href="index.html">Static GK <i class="ti ti-chevron-right"></i></a>
-          <a href="quiz.html">Daily quiz <i class="ti ti-chevron-right"></i></a>
-        </div>
-      </div>
-    </aside>
-
-  </div>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GK Prep — Current Affairs, GK Questions & Daily Quiz</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Source+Serif+4:wght@600;700&display=swap" rel="stylesheet">
+<style>
+:root{--blue:#2457d6;--navy:#12213f;--text:#172033;--muted:#667085;--bg:#f5f7fb;--card:#fff;--line:#e6eaf0;--green:#0b8f63;--shadow:0 10px 30px rgba(18,33,63,.07)}*{box-sizing:border-box}body{margin:0;font-family:Inter,Arial,sans-serif;color:var(--text);background:var(--bg)}a{text-decoration:none;color:inherit}.wrap{width:min(1180px,calc(100% - 32px));margin:auto}.topbar{background:var(--navy);color:#dce6ff;font-size:13px;padding:8px 0}.topbar .wrap{display:flex;justify-content:space-between}.header{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:10}.headrow{height:72px;display:flex;align-items:center;gap:30px}.logo{font-family:"Source Serif 4",serif;font-size:29px;font-weight:700;color:var(--navy)}.logo span{color:var(--blue)}nav{display:flex;gap:22px;align-items:center;flex:1}nav a{font-size:14px;font-weight:600;color:#465267}nav a:hover,nav a.active{color:var(--blue)}.login{border:1px solid #d8deea;padding:9px 16px;border-radius:9px;color:var(--blue);font-weight:700;font-size:13px}.hero{padding:42px 0 28px;background:linear-gradient(135deg,#eef3ff,#fff)}.hero-grid{display:grid;grid-template-columns:1.55fr .75fr;gap:24px;align-items:stretch}.hero-main{background:var(--navy);border-radius:18px;padding:34px;color:white;box-shadow:var(--shadow);position:relative;overflow:hidden}.hero-main:after{content:"";position:absolute;width:230px;height:230px;border-radius:50%;right:-90px;top:-80px;background:rgba(54,103,224,.3)}.eyebrow{font-size:12px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#9fb9ff}.hero h1{font-family:"Source Serif 4",serif;font-size:44px;line-height:1.08;margin:12px 0}.hero p{color:#cbd6ec;max-width:650px;line-height:1.7}.actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px}.btn{display:inline-flex;align-items:center;justify-content:center;padding:12px 18px;border-radius:9px;font-size:14px;font-weight:800}.btn-primary{background:#fff;color:var(--navy)}.btn-blue{background:var(--blue);color:#fff}.hero-side{background:#fff;border:1px solid var(--line);border-radius:18px;padding:24px;box-shadow:var(--shadow)}.hero-side h3{margin:0 0 18px}.stat{display:flex;justify-content:space-between;padding:14px 0;border-bottom:1px solid var(--line);font-size:14px}.stat:last-child{border:0}.stat b{color:var(--blue)}.section{padding:28px 0}.section-head{display:flex;justify-content:space-between;align-items:end;margin-bottom:16px}.section-head h2{margin:0;font-family:"Source Serif 4",serif;font-size:28px}.section-head a{color:var(--blue);font-size:13px;font-weight:700}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.card{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:0 5px 18px rgba(18,33,63,.04)}.thumb{height:155px;background:#e9eef8}.thumb img{width:100%;height:100%;object-fit:cover}.body{padding:18px}.tag{display:inline-block;font-size:11px;font-weight:800;color:var(--blue);background:#edf2ff;padding:5px 8px;border-radius:999px;margin-bottom:9px}.body h3{font-size:17px;line-height:1.4;margin:0 0 9px}.body p{font-size:13px;color:var(--muted);line-height:1.6;margin:0 0 12px}.meta{font-size:11px;color:#8993a5}.topics{display:grid;grid-template-columns:repeat(6,1fr);gap:12px}.topic{background:#fff;border:1px solid var(--line);padding:17px 10px;border-radius:12px;text-align:center;font-size:13px;font-weight:700}.topic span{display:block;font-size:22px;margin-bottom:8px}.quiz-banner{background:#fff;border:1px solid var(--line);border-radius:18px;padding:28px;display:flex;align-items:center;justify-content:space-between;gap:20px;box-shadow:var(--shadow)}.quiz-banner h2{margin:0 0 7px;font-family:"Source Serif 4",serif}.quiz-banner p{margin:0;color:var(--muted);font-size:14px}.footer{margin-top:35px;background:var(--navy);color:#b9c5dc;padding:38px 0}.footergrid{display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:30px}.footer h3,.footer h4{color:#fff;margin-top:0}.footer a{display:block;margin:8px 0;font-size:13px}.empty{background:#fff;border:1px dashed #ccd4e1;border-radius:12px;padding:25px;color:var(--muted)}@media(max-width:850px){nav{display:none}.hero-grid{grid-template-columns:1fr}.grid{grid-template-columns:1fr}.topics{grid-template-columns:repeat(3,1fr)}.hero h1{font-size:36px}.quiz-banner{display:block}.quiz-banner .btn{margin-top:18px}.footergrid{grid-template-columns:1fr 1fr}}@media(max-width:520px){.topbar .wrap span:last-child{display:none}.headrow{height:62px}.topics{grid-template-columns:repeat(2,1fr)}.hero{padding-top:24px}.hero-main{padding:25px}.hero h1{font-size:31px}}
+</style>
+</head><body>
+<div class="topbar"><div class="wrap"><span>भारत की तैयारी, अब एक जगह</span><span>SSC • RRB • UPSC • Banking • State PSC</span></div></div>
+<header class="header"><div class="wrap headrow"><a class="logo" href="index.html">GK<span>Prep</span></a><nav><a class="active" href="index.html">Home</a><a href="index.html#current-affairs">Current Affairs</a><a href="quiz.html">Quiz</a><a href="gk-questions.html">GK Questions</a><a href="index.html#ebooks">E-books</a></nav><a class="login" href="admin.html">Admin</a></div></header>
+<main>
+<section class="hero"><div class="wrap hero-grid"><div class="hero-main"><div class="eyebrow">Daily Exam Preparation</div><h1>GK, Current Affairs और Quiz — आपकी तैयारी का स्मार्ट साथी</h1><p>Latest current affairs पढ़ें, topic-wise GK questions practice करें और daily quiz से अपना score improve करें।</p><div class="actions"><a class="btn btn-primary" href="gk-questions.html">GK Questions देखें</a><a class="btn btn-blue" href="quiz.html">Daily Quiz शुरू करें</a></div></div><div class="hero-side"><h3>आज की तैयारी</h3><div class="stat"><span>Latest Current Affairs</span><b id="affairCount">—</b></div><div class="stat"><span>GK Questions</span><b id="questionCount">—</b></div><div class="stat"><span>Practice Quiz</span><b>Daily</b></div><div class="stat"><span>Subjects</span><b>12+</b></div></div></div></section>
+<section class="section" id="current-affairs"><div class="wrap"><div class="section-head"><h2>Latest Current Affairs</h2><a href="index.html#current-affairs">View all →</a></div><div class="grid" id="affairsGrid"><div class="empty">Current Affairs loading...</div></div></div></section>
+<section class="section"><div class="wrap"><div class="section-head"><h2>Popular GK Topics</h2><a href="gk-questions.html">All Questions →</a></div><div class="topics"><a class="topic" href="gk-questions.html?category=Indian%20Polity"><span>⚖️</span>Polity</a><a class="topic" href="gk-questions.html?category=History"><span>🏛️</span>History</a><a class="topic" href="gk-questions.html?category=Geography"><span>🌍</span>Geography</a><a class="topic" href="gk-questions.html?category=Economy"><span>💰</span>Economy</a><a class="topic" href="gk-questions.html?category=Science"><span>🔬</span>Science</a><a class="topic" href="gk-questions.html?category=Environment"><span>🌱</span>Environment</a></div></div></section>
+<section class="section"><div class="wrap"><div class="quiz-banner"><div><h2>🎯 Daily GK Quiz</h2><p>अपने GK को test करें और तुरंत score देखें।</p></div><a class="btn btn-blue" href="quiz.html">Start Quiz →</a></div></div></section>
+<section class="section" id="ebooks"><div class="wrap"><div class="section-head"><h2>Exam Preparation</h2></div><div class="grid"><div class="card"><div class="body"><span class="tag">SSC</span><h3>SSC GK & Current Affairs</h3><p>SSC exams के लिए focused GK practice.</p><a class="btn btn-blue" href="gk-questions.html">Practice Now</a></div></div><div class="card"><div class="body"><span class="tag">RRB</span><h3>Railway GK Practice</h3><p>RRB preparation के लिए topic-wise questions.</p><a class="btn btn-blue" href="gk-questions.html">Practice Now</a></div></div><div class="card"><div class="body"><span class="tag">PSC</span><h3>State PSC Preparation</h3><p>Static GK और current topics की practice.</p><a class="btn btn-blue" href="gk-questions.html">Practice Now</a></div></div></div></div></section>
 </main>
-
-<footer class="site-footer">
-  <div class="wrap">
-    <div class="footer-cols">
-      <div>
-        <div class="footer-logo">GK Prep</div>
-        <p style="max-width:32ch;">Current affairs, GK, and daily quizzes for UPSC, SSC, Banking and state exams.</p>
-      </div>
-      <div>
-        <h5>Explore</h5>
-        <a href="index.html">Current affairs</a>
-        <a href="quiz.html">Quiz</a>
-        <a href="index.html">GK questions</a>
-      </div>
-      <div>
-        <h5>Resources</h5>
-        <a href="index.html">E-books</a>
-        <a href="index.html">Hindi section</a>
-        <a href="index.html">State PSC</a>
-      </div>
-      <div>
-        <h5>About</h5>
-        <a href="index.html">About us</a>
-        <a href="index.html">Privacy policy</a>
-        <a href="index.html">Contact</a>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <span>&copy; 2026 GK Prep. All rights reserved.</span>
-      <span>Prototype for design review</span>
-    </div>
-  </div>
-</footer>
-
-<script src="script.js"></script>
-<script src="content.js"></script>
+<footer class="footer"><div class="wrap footergrid"><div><h3>GK Prep</h3><p>Current Affairs, GK Questions और Daily Quiz — exam preparation के लिए एक simple platform.</p></div><div><h4>Explore</h4><a href="index.html">Home</a><a href="gk-questions.html">GK Questions</a><a href="quiz.html">Quiz</a></div><div><h4>Exams</h4><a href="gk-questions.html">SSC</a><a href="gk-questions.html">RRB</a><a href="gk-questions.html">State PSC</a></div></div></footer>
+<script src="config.js"></script><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-async function loadFeaturedArticle() {
-  const client = supabase.createClient(
-    "https://xjobzypcjrahstesdljv.supabase.co",
-    "sb_publishable_-YNBva4Uns4Di2nTRdW6_A_0nHZu-op"
-  );
-
-  const { data: article, error } = await client
-    .from("current_affairs")
-    .select("*")
-    .eq("published", true)
-    .order("date", { ascending: false })
-    .order("created_at", { ascending: false })
-    .limit(1)
-    .maybeSingle();
-
-  if (error || !article) {
-    console.error("Featured Article Error:", error);
-    document.getElementById("featuredTitle").textContent = "No current affair available yet";
-    document.getElementById("featuredSummary").textContent = "Add a published current affair from the Admin Panel.";
-    return;
-  }
-
-  const title = article.title || "Current Affair";
-  const category = article.category || "Current Affairs";
-  const image = article.image || "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=900&h=500&fit=crop";
-
-  document.getElementById("featuredTitle").textContent = title;
-  document.getElementById("featuredTitle").href = "article.html?id=" + article.id;
-  document.getElementById("featuredSummary").textContent = article.summary || "";
-  document.getElementById("featuredCategory").textContent = category;
-  document.getElementById("featuredDate").textContent = article.date
-    ? new Date(article.date).toLocaleDateString("en-IN", {day:"numeric", month:"short", year:"numeric"})
-    : "";
-
-  document.getElementById("featuredImage").src = image;
-  document.getElementById("featuredImage").alt = title;
-}
-
-const featuredScript = document.createElement("script");
-featuredScript.src = "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2";
-featuredScript.onload = loadFeaturedArticle;
-document.head.appendChild(featuredScript);
-</script>
-</body>
-</html>
+(async()=>{try{const c=supabase.createClient(GK_CONFIG.SUPABASE_URL,GK_CONFIG.SUPABASE_ANON_KEY);const [a,q]=await Promise.all([c.from('current_affairs').select('*').eq('published',true).order('date',{ascending:false}).order('created_at',{ascending:false}).limit(6),c.from('gk_questions').select('id',{count:'exact',head:true})]);document.getElementById('questionCount').textContent=q.count??'0';document.getElementById('affairCount').textContent=a.data?.length??'0';const grid=document.getElementById('affairsGrid');if(a.error||!a.data?.length){grid.innerHTML='<div class="empty">अभी कोई published Current Affair उपलब्ध नहीं है।</div>';return}grid.innerHTML=a.data.map(x=>`<article class="card"><div class="thumb"><img src="${escapeHtml(x.image||'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=900&h=500&fit=crop')}" alt=""></div><div class="body"><span class="tag">${escapeHtml(x.category||'Current Affairs')}</span><h3><a href="article.html?id=${encodeURIComponent(x.id)}">${escapeHtml(x.title||'Current Affair')}</a></h3><p>${escapeHtml(x.summary||'Read the latest current affair on GK Prep.')}</p><div class="meta">${escapeHtml(x.date||'')} • GK Prep</div></div></article>`).join('')}catch(e){console.error(e)}})();function escapeHtml(v){return String(v??'').replace(/[&<>'"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[m]))}
+</script></body></html>
