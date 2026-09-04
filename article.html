@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>India's latest earth observation satellite — GK Prep</title>
+<title>Current Affair — GK Prep</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tabler-icons/2.44.0/iconfont/tabler-icons.min.css">
@@ -43,43 +43,31 @@
   <div class="wrap layout-grid">
 
     <article>
-      <p class="breadcrumb"><a href="index.html">Home</a> &gt; <a href="index.html">Current affairs</a> &gt; Science and technology</p>
+      <p class="breadcrumb"><a href="index.html">Home</a> &gt; <a href="index.html">Current affairs</a> &gt; <span id="breadcrumbCategory">Loading...</span></p>
 
       <div class="article-head">
-        <h1>India's latest earth observation satellite: what it does and why it's news</h1>
+        <h1 id="articleTitle">Loading article...</h1>
         <div class="byline">
-          <div class="avatar">ET</div>
-          <span>Editorial team</span>
+          <div class="avatar">GK</div>
+          <span>GK Prep</span>
           <span>&middot;</span>
-          <span>September 4, 2026</span>
-          <span class="tag">Science and tech</span>
+          <span id="articleDate">Loading...</span>
+          <span class="tag" id="articleCategory">Loading...</span>
         </div>
       </div>
 
       <div class="article-hero">
-        <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1000&h=520&fit=crop" alt="Satellite launch vehicle lifting off">
+        <img id="articleImage" src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1000&h=520&fit=crop" alt="GK Prep article">
       </div>
 
-      <div class="article-body">
-        <p>India's space programme added another mission to its earth observation fleet this week, expanding the country's ability to monitor agriculture, disaster response, and border areas from orbit. For exam purposes, the launch is a useful anchor point for a cluster of related static GK facts.</p>
-
-        <h2>Key highlights</h2>
-        <p>The satellite carries a high-resolution imaging payload designed for both civilian and strategic applications. It was placed into a sun-synchronous orbit, which keeps its passes over any given location at a consistent local time — a detail examiners like to test alongside geostationary and polar orbits.</p>
-        <ul>
-          <li>Launch vehicle: a medium-lift rocket from the agency's operational fleet</li>
-          <li>Orbit type: sun-synchronous polar orbit</li>
-          <li>Primary use: agriculture monitoring, disaster management, and border surveillance</li>
-          <li>Launch site: the agency's primary spaceport on India's east coast</li>
-        </ul>
-
-        <h2>Why this matters for your exam</h2>
-        <p>Static GK questions on space missions usually test three things: the name and purpose of the satellite, the type of orbit, and the launch vehicle used. Building a simple table for each year's major launches is one of the fastest ways to revise this topic before prelims.</p>
+      <div class="article-body" id="articleBody">
+        <p>Loading article content...</p>
       </div>
 
       <div class="share-row">
         <div style="display:flex; gap:8px;">
-          <span class="tag">Static GK</span>
-          <span class="tag">ISRO</span>
+          <span class="tag" id="shareCategory">Current Affairs</span>
+          <span class="tag">GK Prep</span>
         </div>
         <div class="share-icons">
           <button aria-label="Share"><i class="ti ti-share"></i></button>
@@ -164,6 +152,123 @@
     </div>
   </div>
 </footer>
+
+
+<script>
+const supabaseScript = document.createElement("script");
+supabaseScript.src = "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2";
+supabaseScript.onload = loadArticle;
+document.head.appendChild(supabaseScript);
+
+async function loadArticle() {
+  const client = supabase.createClient(
+    "https://xjobzypcjrahstesdljv.supabase.co",
+    "sb_publishable_-YNBva4Uns4Di2nTRdW6_A_0nHZu-op"
+  );
+
+  const articleId = new URLSearchParams(window.location.search).get("id");
+
+  if (!articleId) {
+    showError("Article not found.");
+    return;
+  }
+
+  const { data: article, error } = await client
+    .from("current_affairs")
+    .select("*")
+    .eq("id", articleId)
+    .eq("published", true)
+    .single();
+
+  if (error || !article) {
+    console.error("Article Error:", error);
+    showError("Article not found.");
+    return;
+  }
+
+  const title = article.title || "GK Prep";
+  const category = article.category || "Current Affairs";
+  const date = article.date
+    ? new Date(article.date).toLocaleDateString("en-IN", {
+        day: "numeric", month: "long", year: "numeric"
+      })
+    : "";
+
+  document.title = `${title} — GK Prep`;
+  document.getElementById("articleTitle").textContent = title;
+  document.getElementById("articleDate").textContent = date;
+  document.getElementById("articleCategory").textContent = category;
+  document.getElementById("breadcrumbCategory").textContent = category;
+  document.getElementById("shareCategory").textContent = category;
+
+  const image = article.image ||
+    "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1000&h=520&fit=crop";
+
+  const imageEl = document.getElementById("articleImage");
+  imageEl.src = image;
+  imageEl.alt = title;
+
+  renderArticleContent(article.content || "");
+}
+
+function renderArticleContent(content) {
+  const body = document.getElementById("articleBody");
+  const lines = String(content).split(/\r?\n/);
+  const fragment = document.createDocumentFragment();
+  let list = null;
+
+  function closeList() {
+    if (list) {
+      fragment.appendChild(list);
+      list = null;
+    }
+  }
+
+  lines.forEach(line => {
+    const trimmed = line.trim();
+    if (!trimmed) { closeList(); return; }
+
+    if (trimmed.startsWith("## ")) {
+      closeList();
+      const h2 = document.createElement("h2");
+      h2.textContent = trimmed.substring(3).trim();
+      fragment.appendChild(h2);
+      return;
+    }
+
+    if (trimmed.startsWith("- ")) {
+      if (!list) list = document.createElement("ul");
+      const li = document.createElement("li");
+      li.textContent = trimmed.substring(2).trim();
+      list.appendChild(li);
+      return;
+    }
+
+    closeList();
+    const p = document.createElement("p");
+    p.textContent = trimmed;
+    fragment.appendChild(p);
+  });
+
+  closeList();
+  body.innerHTML = "";
+  body.appendChild(fragment);
+}
+
+function showError(message) {
+  document.title = "Article not found — GK Prep";
+  const title = document.getElementById("articleTitle");
+  const body = document.getElementById("articleBody");
+  if (title) title.textContent = message;
+  if (body) body.innerHTML = `<p>${escapeHtml(message)}</p><p><a href="index.html">Back to Current Affairs</a></p>`;
+}
+
+function escapeHtml(value) {
+  return String(value ?? "").replace(/[&<>"']/g, char => ({
+    "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;"
+  }[char]));
+}
+</script>
 
 <script src="script.js"></script>
 </body>
