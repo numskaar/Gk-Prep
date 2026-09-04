@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="hi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>GK Prep Admin</title>
+<link rel="stylesheet" href="admin.css">
+</head>
+<body>
+<div id="loginView" class="center">
+  <form id="loginForm" class="card">
+    <h1>GK Prep Admin</h1>
+    <p>Admin panel में प्रवेश करें</p>
+    <input id="email" type="email" placeholder="Admin email" required>
+    <input id="password" type="password" placeholder="Password" required>
+    <button>Login</button>
+    <small id="loginMsg"></small>
+  </form>
+</div>
+
+<div id="app" class="hidden">
+  <header><strong>GK PREP ADMIN</strong><button id="logout">Logout</button></header>
+  <main>
+    <section class="stats">
+      <div class="stat"><b id="totalPosts">0</b><span>Current Affairs</span></div>
+      <div class="stat"><b id="publishedPosts">0</b><span>Published</span></div>
+    </section>
+
+    <section class="card">
+      <h2 id="formTitle">Add Current Affair</h2>
+      <form id="postForm">
+        <input type="hidden" id="postId">
+        <input id="title" placeholder="Title" required>
+        <input id="category" placeholder="Category (e.g. National)" required>
+        <input id="date" type="date" required>
+        <input id="image" placeholder="Image URL (optional)">
+        <textarea id="summary" placeholder="Short summary"></textarea>
+        <textarea id="content" placeholder="Full content" required></textarea>
+        <label><input id="published" type="checkbox" checked> Publish</label>
+        <div><button type="submit">Save</button><button type="button" id="cancelEdit" class="secondary hidden">Cancel</button></div>
+        <small id="formMsg"></small>
+      </form>
+    </section>
+
+    <section class="card">
+      <h2>Current Affairs</h2>
+      <div id="posts"></div>
+    </section>
+  </main>
+</div>
+<script src="config.js"></script>
+<script src="admin.js"></script>
+</body>
+</html>
