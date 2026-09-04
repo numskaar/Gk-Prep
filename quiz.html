@@ -1,9 +1,466 @@
-<!doctype html><html lang="hi"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>GK Quiz — GK Prep</title><link rel="stylesheet" href="style.css"></head><body>
-<header class="site-header"><div class="wrap header-row"><a href="index.html" class="logo">GK<span>Prep</span></a><nav class="main-nav"><a href="index.html">Home</a><a href="index.html">Current affairs</a><a href="quiz.html" class="active">Quiz</a><a href="index.html">GK questions</a><a href="index.html">E-books</a></nav><div class="header-actions"><a href="index.html" class="login-link">Login</a><button class="menu-toggle" aria-label="Open menu">☰</button></div></div></header>
-<main class="page-body"><div class="wrap"><section class="quiz-shell"><div class="quiz-head"><p class="section-label">GK Prep</p><h1>GK Questions Quiz</h1><p>Admin Panel से जो questions publish होंगे, वे यहाँ automatically दिखाई देंगे।</p><div id="status">Questions loading...</div></div><div id="quizBox"></div><button id="submitQuiz" class="btn btn-primary" style="margin-top:18px;display:none">Submit Quiz</button><div id="result" style="margin-top:20px"></div></section></div></main>
-<script src="config.js"></script><script>
-const sb=document.createElement('script');sb.src='https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2';sb.onload=loadQuestions;document.head.appendChild(sb);let questions=[];
-async function loadQuestions(){const c=supabase.createClient(GK_CONFIG.SUPABASE_URL,GK_CONFIG.SUPABASE_ANON_KEY);const {data,error}=await c.from('gk_questions').select('*').eq('published',true).order('created_at',{ascending:false});if(error){status.textContent='Questions load नहीं हो पाए।';return}questions=data||[];if(!questions.length){status.textContent='अभी कोई published GK question नहीं है।';return}status.textContent=`Total Questions: ${questions.length}`;quizBox.innerHTML=questions.map((q,i)=>`<div class="quiz-question" style="margin:22px 0;padding:20px;border:1px solid #ddd;border-radius:12px"><h3>Q${i+1}. ${esc(q.question)}</h3>${[['A',q.option_a],['B',q.option_b],['C',q.option_c],['D',q.option_d]].map(([k,v])=>`<label style="display:block;margin:10px 0"><input type="radio" name="q${i}" value="${k}"> ${k}. ${esc(v)}</label>`).join('')}</div>`).join('');submitQuiz.style.display='inline-block'}
-submitQuiz.onclick=()=>{let score=0;questions.forEach((q,i)=>{const a=document.querySelector(`input[name=q${i}]:checked`);if(a&&a.value===q.correct_option)score++});result.innerHTML=`<div class="side-card"><h2>आपका Score: ${score} / ${questions.length}</h2><p>Quiz complete हो गया। फिर से attempt करने के लिए answers बदलकर Submit Quiz दबाएँ।</p></div>`;window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'})};
-function esc(v){return String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]))}
-</script></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GK Practice Quiz</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,400;7..72,500;7..72,600;7..72,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy-900:#0F2540;
+    --blue-700:#204A87;
+    --blue-600:#2C5AA0;
+    --blue-50:#EEF3FA;
+    --blue-100:#DCE7F5;
+    --white:#FFFFFF;
+    --ink:#16233A;
+    --slate-500:#5B6B82;
+    --slate-300:#B9C6D9;
+    --border:#D8E1EE;
+    --green-600:#1E8A4C;
+    --green-50:#E9F7EF;
+    --red-600:#C0392B;
+    --red-50:#FBEAE8;
+    --radius:10px;
+  }
+
+  *{ box-sizing:border-box; }
+
+  body{
+    margin:0;
+    background:var(--blue-50);
+    color:var(--ink);
+    font-family:'Inter',system-ui,sans-serif;
+    line-height:1.5;
+    padding:32px 16px 64px;
+  }
+
+  .quiz-shell{
+    max-width:640px;
+    margin:0 auto;
+  }
+
+  .quiz-header{
+    text-align:left;
+    margin-bottom:20px;
+  }
+
+  .quiz-header h1{
+    font-family:'Literata',Georgia,serif;
+    font-weight:600;
+    font-size:1.7rem;
+    color:var(--navy-900);
+    margin:0 0 4px;
+  }
+
+  .quiz-header p{
+    margin:0;
+    color:var(--slate-500);
+    font-size:0.95rem;
+  }
+
+  .progress-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin:20px 0 8px;
+    font-size:0.85rem;
+    color:var(--slate-500);
+  }
+
+  .progress-track{
+    height:6px;
+    background:var(--blue-100);
+    border-radius:999px;
+    overflow:hidden;
+    margin-bottom:20px;
+  }
+
+  .progress-fill{
+    height:100%;
+    background:var(--blue-600);
+    border-radius:999px;
+    transition:width 0.35s ease;
+  }
+
+  .card{
+    background:var(--white);
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    padding:28px 26px;
+  }
+
+  .topic-tag{
+    display:inline-block;
+    font-size:0.78rem;
+    color:var(--blue-700);
+    background:var(--blue-50);
+    border:1px solid var(--blue-100);
+    padding:3px 10px;
+    border-radius:999px;
+    margin-bottom:14px;
+  }
+
+  .question-text{
+    font-family:'Literata',Georgia,serif;
+    font-size:1.25rem;
+    font-weight:500;
+    color:var(--navy-900);
+    margin:0 0 20px;
+  }
+
+  .options{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+  }
+
+  .option{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    text-align:left;
+    width:100%;
+    background:var(--white);
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    padding:12px 14px;
+    font-family:'Inter',sans-serif;
+    font-size:0.98rem;
+    color:var(--ink);
+    cursor:pointer;
+    transition:border-color 0.15s ease, background 0.15s ease;
+  }
+
+  .option:hover:not(:disabled){
+    border-color:var(--blue-600);
+    background:var(--blue-50);
+  }
+
+  .option:disabled{
+    cursor:default;
+  }
+
+  .option .marker{
+    flex:0 0 auto;
+    width:26px;
+    height:26px;
+    border-radius:50%;
+    border:1px solid var(--slate-300);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:0.82rem;
+    color:var(--slate-500);
+  }
+
+  .option.correct{
+    border-color:var(--green-600);
+    background:var(--green-50);
+  }
+  .option.correct .marker{
+    border-color:var(--green-600);
+    background:var(--green-600);
+    color:var(--white);
+  }
+
+  .option.incorrect{
+    border-color:var(--red-600);
+    background:var(--red-50);
+  }
+  .option.incorrect .marker{
+    border-color:var(--red-600);
+    background:var(--red-600);
+    color:var(--white);
+  }
+
+  .explanation{
+    margin-top:18px;
+    padding:14px 16px;
+    background:var(--blue-50);
+    border-left:3px solid var(--blue-600);
+    border-radius:0 6px 6px 0;
+    font-size:0.92rem;
+    color:var(--ink);
+  }
+
+  .explanation strong{
+    display:block;
+    color:var(--navy-900);
+    font-size:0.85rem;
+    margin-bottom:4px;
+  }
+
+  .quiz-footer{
+    display:flex;
+    justify-content:flex-end;
+    margin-top:22px;
+  }
+
+  button.next-btn{
+    background:var(--blue-600);
+    color:var(--white);
+    border:none;
+    border-radius:8px;
+    padding:10px 22px;
+    font-size:0.95rem;
+    font-family:'Inter',sans-serif;
+    font-weight:500;
+    cursor:pointer;
+    transition:background 0.15s ease;
+  }
+  button.next-btn:hover{
+    background:var(--blue-700);
+  }
+  button.next-btn:disabled{
+    background:var(--slate-300);
+    cursor:not-allowed;
+  }
+
+  .result-card{
+    text-align:center;
+    padding:40px 26px;
+  }
+
+  .result-score{
+    font-family:'Literata',Georgia,serif;
+    font-size:3rem;
+    font-weight:600;
+    color:var(--navy-900);
+    margin:8px 0 4px;
+  }
+
+  .result-label{
+    color:var(--slate-500);
+    font-size:0.95rem;
+    margin-bottom:24px;
+  }
+
+  .result-list{
+    text-align:left;
+    border-top:1px solid var(--border);
+    padding-top:18px;
+    margin-top:6px;
+  }
+
+  .result-row{
+    display:flex;
+    gap:10px;
+    align-items:flex-start;
+    padding:10px 0;
+    border-bottom:1px solid var(--border);
+    font-size:0.9rem;
+  }
+  .result-row:last-child{ border-bottom:none; }
+
+  .result-row .dot{
+    flex:0 0 auto;
+    width:8px;
+    height:8px;
+    border-radius:50%;
+    margin-top:6px;
+  }
+  .result-row .dot.ok{ background:var(--green-600); }
+  .result-row .dot.no{ background:var(--red-600); }
+
+  button.restart-btn{
+    margin-top:24px;
+    background:var(--white);
+    color:var(--blue-700);
+    border:1px solid var(--blue-600);
+    border-radius:8px;
+    padding:10px 22px;
+    font-size:0.95rem;
+    font-family:'Inter',sans-serif;
+    font-weight:500;
+    cursor:pointer;
+  }
+  button.restart-btn:hover{
+    background:var(--blue-50);
+  }
+
+  @media (max-width:480px){
+    .card{ padding:22px 18px; }
+    .question-text{ font-size:1.1rem; }
+    .result-score{ font-size:2.4rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="quiz-shell">
+  <div class="quiz-header">
+    <h1>GK Practice Quiz</h1>
+    <p>Static general knowledge — Polity, History, Geography, Economy &amp; Science</p>
+  </div>
+
+  <div id="quizArea"></div>
+</div>
+
+<script>
+const questions = [
+  {
+    topic: "Polity",
+    q: "The Constitution of India came into effect on which date?",
+    options: ["15 August 1947", "26 January 1950", "26 November 1949", "2 October 1950"],
+    correct: 1,
+    explanation: "The Constitution was adopted on 26 November 1949 but came into force on 26 January 1950, a date chosen to commemorate Purna Swaraj Day. This day is celebrated as Republic Day."
+  },
+  {
+    topic: "History",
+    q: "Who was the first Prime Minister of independent India?",
+    options: ["Sardar Vallabhbhai Patel", "Dr. Rajendra Prasad", "Jawaharlal Nehru", "Lal Bahadur Shastri"],
+    correct: 2,
+    explanation: "Jawaharlal Nehru became India's first Prime Minister on 15 August 1947 and served until his death in 1964, the longest tenure of any Indian PM."
+  },
+  {
+    topic: "Geography",
+    q: "Which is the longest river flowing within India?",
+    options: ["Yamuna", "Godavari", "Brahmaputra", "Ganga"],
+    correct: 3,
+    explanation: "The Ganga is the longest river flowing through India, running about 2,525 km from Gangotri in the Himalayas to the Bay of Bengal."
+  },
+  {
+    topic: "Economy",
+    q: "In which year was the Reserve Bank of India established?",
+    options: ["1935", "1947", "1950", "1969"],
+    correct: 0,
+    explanation: "The RBI was established on 1 April 1935 under the Reserve Bank of India Act, 1934. It was nationalised later, in 1949."
+  },
+  {
+    topic: "Science",
+    q: "What is the SI unit of electric current?",
+    options: ["Volt", "Watt", "Ampere", "Ohm"],
+    correct: 2,
+    explanation: "The ampere (A) is the SI base unit of electric current, named after French physicist André-Marie Ampère."
+  },
+  {
+    topic: "History",
+    q: "The Battle of Plassey, which laid the foundation of British rule in India, was fought in which year?",
+    options: ["1757", "1764", "1857", "1600"],
+    correct: 0,
+    explanation: "The Battle of Plassey (1757) was fought between the British East India Company under Robert Clive and Siraj-ud-Daulah, the Nawab of Bengal. The Company's victory marked the start of its political control in India."
+  },
+  {
+    topic: "Geography",
+    q: "Which is the smallest state in India by area?",
+    options: ["Sikkim", "Tripura", "Goa", "Nagaland"],
+    correct: 2,
+    explanation: "Goa is India's smallest state by area, at roughly 3,702 sq. km, though it is not the least populous."
+  },
+  {
+    topic: "Science",
+    q: "What is the chemical symbol for gold?",
+    options: ["Ag", "Gd", "Au", "Go"],
+    correct: 2,
+    explanation: "Gold's symbol, Au, comes from its Latin name 'aurum'. Silver's symbol, Ag, comes similarly from 'argentum'."
+  }
+];
+
+let current = 0;
+let score = 0;
+let answered = new Array(questions.length).fill(null);
+
+const quizArea = document.getElementById('quizArea');
+
+function renderQuestion(){
+  const item = questions[current];
+  const userAnswer = answered[current];
+  const isLocked = userAnswer !== null;
+
+  const pct = Math.round(((current) / questions.length) * 100);
+
+  let optionsHTML = item.options.map((opt, i) => {
+    let cls = "option";
+    if(isLocked){
+      if(i === item.correct) cls += " correct";
+      else if(i === userAnswer) cls += " incorrect";
+    }
+    const letter = String.fromCharCode(65 + i);
+    return `<button class="${cls}" ${isLocked ? "disabled" : ""} onclick="selectOption(${i})">
+      <span class="marker">${letter}</span><span>${opt}</span>
+    </button>`;
+  }).join("");
+
+  let explanationHTML = "";
+  if(isLocked){
+    explanationHTML = `<div class="explanation">
+      <strong>Explanation</strong>
+      ${item.explanation}
+    </div>`;
+  }
+
+  const isLast = current === questions.length - 1;
+
+  quizArea.innerHTML = `
+    <div class="progress-row">
+      <span>Question ${current + 1} of ${questions.length}</span>
+      <span>${score} correct so far</span>
+    </div>
+    <div class="progress-track">
+      <div class="progress-fill" style="width:${pct}%"></div>
+    </div>
+    <div class="card">
+      <span class="topic-tag">${item.topic}</span>
+      <p class="question-text">${item.q}</p>
+      <div class="options">${optionsHTML}</div>
+      ${explanationHTML}
+      <div class="quiz-footer">
+        <button class="next-btn" ${isLocked ? "" : "disabled"} onclick="nextQuestion()">
+          ${isLast ? "See results" : "Next question"}
+        </button>
+      </div>
+    </div>
+  `;
+}
+
+function selectOption(i){
+  if(answered[current] !== null) return;
+  answered[current] = i;
+  if(i === questions[current].correct) score++;
+  renderQuestion();
+}
+
+function nextQuestion(){
+  if(current < questions.length - 1){
+    current++;
+    renderQuestion();
+  } else {
+    renderResult();
+  }
+}
+
+function renderResult(){
+  const pct = Math.round((score / questions.length) * 100);
+  const rows = questions.map((item, i) => {
+    const correct = answered[i] === item.correct;
+    return `<div class="result-row">
+      <span class="dot ${correct ? "ok" : "no"}"></span>
+      <span>${item.q}</span>
+    </div>`;
+  }).join("");
+
+  quizArea.innerHTML = `
+    <div class="card result-card">
+      <div class="result-label">Your score</div>
+      <div class="result-score">${score}/${questions.length}</div>
+      <div class="result-label">${pct}% correct</div>
+      <div class="result-list">${rows}</div>
+      <button class="restart-btn" onclick="restartQuiz()">Try again</button>
+    </div>
+  `;
+}
+
+function restartQuiz(){
+  current = 0;
+  score = 0;
+  answered = new Array(questions.length).fill(null);
+  renderQuestion();
+}
+
+renderQuestion();
+</script>
+
+</body>
+</html>
