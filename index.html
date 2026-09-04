@@ -45,15 +45,15 @@
     <section>
       <article class="feature-card">
         <div class="thumb">
-          <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=900&h=500&fit=crop" alt="Satellite over Earth, representing a space and science current affairs story">
+          <img id="featuredImage" src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=900&h=500&fit=crop" alt="Featured current affairs article">
         </div>
         <div class="body">
-          <h2><a href="article.html">This week in current affairs: the stories that matter for prelims</a></h2>
-          <p class="excerpt">A weekly round-up of national and international developments, written with exam relevance in mind — not just the headline, but why it matters for your syllabus.</p>
+          <h2><a id="featuredTitle" href="#">Loading latest current affair...</a></h2>
+          <p class="excerpt" id="featuredSummary">Loading...</p>
           <div class="meta-row">
-            <span class="tag">Current affairs</span>
-            <span>September 4, 2026</span>
-            <span>6 min read</span>
+            <span class="tag" id="featuredCategory">Current affairs</span>
+            <span id="featuredDate">Loading...</span>
+            <span>GK Prep</span>
           </div>
         </div>
       </article>
@@ -62,39 +62,6 @@
       <div class="article-list" id="dynamicArticles">
   <p>Loading current affairs...</p>
 </div>
-        <div class="article-row">
-          <div class="thumb"><img src="https://images.unsplash.com/photo-1541872703-74c5e44368f9?w=300&h=200&fit=crop" alt="Parliament building representing a polity article"></div>
-          <div>
-            <h3><a href="article.html">Fundamental rights and their reasonable restrictions, explained simply</a></h3>
-            <p>A quick revision guide covering Articles 19 to 22, with the exceptions examiners love to test.</p>
-            <div class="meta-row"><span class="tag">Static GK</span><span>Sep 3, 2026</span></div>
-          </div>
-        </div>
-        <div class="article-row">
-          <div class="thumb"><img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=300&h=200&fit=crop" alt="Satellite launch representing a science and technology article"></div>
-          <div>
-            <h3><a href="article.html">India's latest earth observation satellite: what it does and why it's news</a></h3>
-            <p>Breaking down the mission's payload, orbit, and its place in India's space programme.</p>
-            <div class="meta-row"><span class="tag">Science and tech</span><span>Sep 3, 2026</span></div>
-          </div>
-        </div>
-        <div class="article-row">
-          <div class="thumb"><img src="https://images.unsplash.com/photo-1466611653911-95081537e5b7?w=300&h=200&fit=crop" alt="River landscape representing an environment article"></div>
-          <div>
-            <h3><a href="article.html">Wetlands under the Ramsar list: India's latest additions</a></h3>
-            <p>Why these sites were chosen and what protections the designation actually brings.</p>
-            <div class="meta-row"><span class="tag">Environment</span><span>Sep 2, 2026</span></div>
-          </div>
-        </div>
-        <div class="article-row">
-          <div class="thumb"><img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=300&h=200&fit=crop" alt="Currency notes representing an economy article"></div>
-          <div>
-            <h3><a href="article.html">Monetary policy in plain language: what a rate change actually does</a></h3>
-            <p>The mechanics behind repo rate decisions, and how to recall them under exam pressure.</p>
-            <div class="meta-row"><span class="tag">Economy</span><span>Sep 1, 2026</span></div>
-          </div>
-        </div>
-      </div>
     </section>
 
     <aside>
@@ -159,6 +126,50 @@
 </footer>
 
 <script src="script.js"></script>
-  <script src="content.js"></script>
+<script src="content.js"></script>
+<script>
+async function loadFeaturedArticle() {
+  const client = supabase.createClient(
+    "https://xjobzypcjrahstesdljv.supabase.co",
+    "sb_publishable_-YNBva4Uns4Di2nTRdW6_A_0nHZu-op"
+  );
+
+  const { data: article, error } = await client
+    .from("current_affairs")
+    .select("*")
+    .eq("published", true)
+    .order("date", { ascending: false })
+    .order("created_at", { ascending: false })
+    .limit(1)
+    .maybeSingle();
+
+  if (error || !article) {
+    console.error("Featured Article Error:", error);
+    document.getElementById("featuredTitle").textContent = "No current affair available yet";
+    document.getElementById("featuredSummary").textContent = "Add a published current affair from the Admin Panel.";
+    return;
+  }
+
+  const title = article.title || "Current Affair";
+  const category = article.category || "Current Affairs";
+  const image = article.image || "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=900&h=500&fit=crop";
+
+  document.getElementById("featuredTitle").textContent = title;
+  document.getElementById("featuredTitle").href = "article.html?id=" + article.id;
+  document.getElementById("featuredSummary").textContent = article.summary || "";
+  document.getElementById("featuredCategory").textContent = category;
+  document.getElementById("featuredDate").textContent = article.date
+    ? new Date(article.date).toLocaleDateString("en-IN", {day:"numeric", month:"short", year:"numeric"})
+    : "";
+
+  document.getElementById("featuredImage").src = image;
+  document.getElementById("featuredImage").alt = title;
+}
+
+const featuredScript = document.createElement("script");
+featuredScript.src = "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2";
+featuredScript.onload = loadFeaturedArticle;
+document.head.appendChild(featuredScript);
+</script>
 </body>
 </html>
