@@ -1,63 +1,20 @@
-const s = document.createElement('script');
-s.src = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2';
-s.onload = init;
-document.head.appendChild(s);
-
-let client, editingId = null;
-
-function init(){
-  if(!window.GK_CONFIG || GK_CONFIG.SUPABASE_URL.includes("YOUR-")){
-    document.querySelector('#loginMsg').textContent='पहले config.js में Supabase credentials भरें।';
-    return;
-  }
-  client = supabase.createClient(GK_CONFIG.SUPABASE_URL, GK_CONFIG.SUPABASE_ANON_KEY);
-  wire();
-  checkSession();
-}
-function wire(){
-  document.querySelector('#loginForm').addEventListener('submit', login);
-  document.querySelector('#logout').addEventListener('click', async()=>{await client.auth.signOut(); showLogin();});
-  document.querySelector('#postForm').addEventListener('submit', savePost);
-  document.querySelector('#cancelEdit').addEventListener('click', resetForm);
-}
-async function checkSession(){
-  const {data}=await client.auth.getSession();
-  data.session ? showApp() : showLogin();
-}
-function showLogin(){document.querySelector('#loginView').classList.remove('hidden');document.querySelector('#app').classList.add('hidden')}
-function showApp(){document.querySelector('#loginView').classList.add('hidden');document.querySelector('#app').classList.remove('hidden');loadPosts()}
-async function login(e){
-  e.preventDefault();
-  const email=document.querySelector('#email').value,password=document.querySelector('#password').value;
-  const {error}=await client.auth.signInWithPassword({email,password});
-  document.querySelector('#loginMsg').textContent=error?error.message:'';
-  if(!error) showApp();
-}
-async function loadPosts(){
-  const {data,error}=await client.from('current_affairs').select('*').order('date',{ascending:false});
-  if(error){document.querySelector('#posts').textContent=error.message;return}
-  document.querySelector('#totalPosts').textContent=data.length;
-  document.querySelector('#publishedPosts').textContent=data.filter(x=>x.published).length;
-  document.querySelector('#posts').innerHTML=data.map(p=>`<article class="post"><h3>${esc(p.title)}</h3><small>${esc(p.date)} · ${esc(p.category)} · ${p.published?'Published':'Draft'}</small><p>${esc(p.summary||'')}</p><button onclick="editPost('${p.id}')">Edit</button><button class="danger" onclick="deletePost('${p.id}')">Delete</button></article>`).join('')||'<p>No posts yet.</p>';
-  window._posts=data;
-}
-async function savePost(e){
-  e.preventDefault();
-  const payload={title:title.value,category:category.value,date:date.value,image:image.value,summary:summary.value,content:content.value,published:published.checked};
-  const q=editingId?client.from('current_affairs').update(payload).eq('id',editingId):client.from('current_affairs').insert(payload);
-  const {error}=await q;
-  formMsg.textContent=error?error.message:'Saved successfully.';
-  if(!error){resetForm();loadPosts()}
-}
-window.editPost=(id)=>{
-  const p=window._posts.find(x=>x.id===id); if(!p)return;
-  editingId=id; postId.value=id; title.value=p.title; category.value=p.category; date.value=p.date; image.value=p.image||''; summary.value=p.summary||''; content.value=p.content||''; published.checked=!!p.published;
-  formTitle.textContent='Edit Current Affair'; cancelEdit.classList.remove('hidden'); scrollTo(0,0);
-};
-window.deletePost=async(id)=>{
-  if(!confirm('Delete this post?'))return;
-  const {error}=await client.from('current_affairs').delete().eq('id',id);
-  if(error)alert(error.message); else loadPosts();
-};
-function resetForm(){editingId=null;postForm.reset();published.checked=true;formTitle.textContent='Add Current Affair';cancelEdit.classList.add('hidden');formMsg.textContent=''}
+const s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2';s.onload=init;document.head.appendChild(s);
+let client,editingId=null,editingQuestionId=null;
+function init(){if(!window.GK_CONFIG||GK_CONFIG.SUPABASE_URL.includes('YOUR-')){document.querySelector('#loginMsg').textContent='पहले config.js में Supabase credentials भरें।';return}client=supabase.createClient(GK_CONFIG.SUPABASE_URL,GK_CONFIG.SUPABASE_ANON_KEY);wire();checkSession()}
+function wire(){loginForm.addEventListener('submit',login);logout.addEventListener('click',async()=>{await client.auth.signOut();showLogin()});postForm.addEventListener('submit',savePost);cancelEdit.addEventListener('click',resetPostForm);questionForm.addEventListener('submit',saveQuestion);cancelQuestionEdit.addEventListener('click',resetQuestionForm);document.querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>switchTab(b.dataset.tab)))}
+async function checkSession(){const {data}=await client.auth.getSession();data.session?showApp():showLogin()}
+function showLogin(){loginView.classList.remove('hidden');app.classList.add('hidden')}
+function showApp(){loginView.classList.add('hidden');app.classList.remove('hidden');loadPosts();loadQuestions()}
+async function login(e){e.preventDefault();const {error}=await client.auth.signInWithPassword({email:email.value,password:password.value});loginMsg.textContent=error?error.message:'';if(!error)showApp()}
+function switchTab(tab){document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('active',b.dataset.tab===tab));affairsTab.classList.toggle('hidden',tab!=='affairs');questionsTab.classList.toggle('hidden',tab!=='questions')}
+async function loadPosts(){const {data,error}=await client.from('current_affairs').select('*').order('date',{ascending:false});if(error){posts.textContent=error.message;return}totalPosts.textContent=data.length;publishedPosts.textContent=data.filter(x=>x.published).length;posts.innerHTML=data.map(p=>`<article class="post"><h3>${esc(p.title)}</h3><small>${esc(p.date)} · ${esc(p.category)} · ${p.published?'Published':'Draft'}</small><p>${esc(p.summary||'')}</p><button onclick="editPost('${p.id}')">Edit</button><button class="danger" onclick="deletePost('${p.id}')">Delete</button></article>`).join('')||'<p>No posts yet.</p>';window._posts=data}
+async function savePost(e){e.preventDefault();const payload={title:title.value,category:category.value,date:date.value,image:image.value,summary:summary.value,content:content.value,published:published.checked};const q=editingId?client.from('current_affairs').update(payload).eq('id',editingId):client.from('current_affairs').insert(payload);const {error}=await q;formMsg.textContent=error?error.message:'Saved successfully.';if(!error){resetPostForm();loadPosts()}}
+window.editPost=id=>{const p=window._posts.find(x=>x.id===id);if(!p)return;editingId=id;title.value=p.title;category.value=p.category;date.value=p.date;image.value=p.image||'';summary.value=p.summary||'';content.value=p.content||'';published.checked=!!p.published;formTitle.textContent='Edit Current Affair';cancelEdit.classList.remove('hidden');switchTab('affairs');scrollTo(0,0)};
+window.deletePost=async id=>{if(!confirm('Delete this post?'))return;const {error}=await client.from('current_affairs').delete().eq('id',id);if(error)alert(error.message);else loadPosts()};
+function resetPostForm(){editingId=null;postForm.reset();published.checked=true;formTitle.textContent='Add Current Affair';cancelEdit.classList.add('hidden');formMsg.textContent=''}
+async function loadQuestions(){const {data,error}=await client.from('gk_questions').select('*').order('created_at',{ascending:false});if(error){questions.textContent=error.message;return}totalQuestions.textContent=data.length;publishedQuestions.textContent=data.filter(x=>x.published).length;questions.innerHTML=data.map(q=>`<article class="post"><h3>${esc(q.question)}</h3><small>${esc(q.category||'Static GK')} · Correct: ${esc(q.correct_option)} · ${q.published?'Published':'Draft'}</small><p>A. ${esc(q.option_a)}<br>B. ${esc(q.option_b)}<br>C. ${esc(q.option_c)}<br>D. ${esc(q.option_d)}</p><p>${esc(q.explanation||'')}</p><button onclick="editQuestion('${q.id}')">Edit</button><button class="danger" onclick="deleteQuestion('${q.id}')">Delete</button></article>`).join('')||'<p>No questions yet.</p>';window._questions=data}
+async function saveQuestion(e){e.preventDefault();const payload={question:question.value,option_a:optionA.value,option_b:optionB.value,option_c:optionC.value,option_d:optionD.value,correct_option:correctOption.value,explanation:explanation.value,category:questionCategory.value||'Static GK',published:questionPublished.checked};const q=editingQuestionId?client.from('gk_questions').update(payload).eq('id',editingQuestionId):client.from('gk_questions').insert(payload);const {error}=await q;questionFormMsg.textContent=error?error.message:'Question saved successfully.';if(!error){resetQuestionForm();loadQuestions()}}
+window.editQuestion=id=>{const q=window._questions.find(x=>x.id===id);if(!q)return;editingQuestionId=id;question.value=q.question;optionA.value=q.option_a;optionB.value=q.option_b;optionC.value=q.option_c;optionD.value=q.option_d;correctOption.value=q.correct_option;explanation.value=q.explanation||'';questionCategory.value=q.category||'Static GK';questionPublished.checked=!!q.published;questionFormTitle.textContent='Edit GK Question';cancelQuestionEdit.classList.remove('hidden');switchTab('questions');scrollTo(0,0)};
+window.deleteQuestion=async id=>{if(!confirm('Delete this question?'))return;const {error}=await client.from('gk_questions').delete().eq('id',id);if(error)alert(error.message);else loadQuestions()};
+function resetQuestionForm(){editingQuestionId=null;questionForm.reset();questionPublished.checked=true;questionFormTitle.textContent='Add GK Question';cancelQuestionEdit.classList.add('hidden');questionFormMsg.textContent=''}
 function esc(v){return String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]))}
